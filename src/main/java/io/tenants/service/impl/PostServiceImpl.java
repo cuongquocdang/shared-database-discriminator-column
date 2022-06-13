@@ -1,5 +1,6 @@
 package io.tenants.service.impl;
 
+import io.tenants.database.CurrentTenant;
 import io.tenants.database.saas.model.Post;
 import io.tenants.database.saas.repository.PostRepository;
 import io.tenants.service.PostService;
@@ -26,6 +27,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @CurrentTenant
     public List<PostDto> getAllPosts() {
         return postRepository.findAll().stream()
                 .map(post -> PostDto.builder()
