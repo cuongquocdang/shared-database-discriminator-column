@@ -10,4 +10,6 @@ public interface PostService {
     void createPost(PostCreationDto postCreationDto);
 
     List<PostDto> getAllPosts();
+
+    void deletePostById(Long id);
 }

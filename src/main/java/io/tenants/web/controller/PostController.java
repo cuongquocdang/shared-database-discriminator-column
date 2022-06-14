@@ -26,4 +26,10 @@ public class PostController {
         return postService.getAllPosts();
     }
 
+    @DeleteMapping("{postId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePostById(@PathVariable Long postId) {
+        postService.deletePostById(postId);
+    }
+
 }

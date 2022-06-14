@@ -7,12 +7,14 @@ import io.tenants.service.PostService;
 import io.tenants.web.dto.PostCreationDto;
 import io.tenants.web.dto.PostDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
@@ -31,8 +33,20 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> getAllPosts() {
         return postRepository.findAll().stream()
                 .map(post -> PostDto.builder()
+                        .id(post.getId())
                         .content(post.getContent())
                         .build())
                 .toList();
+    }
+
+    @Override
+    public void deletePostById(Long id) {
+        if (!postRepository.existsById(id)) {
+            log.error("Not found with id: {}", id);
+            throw new RuntimeException("Not found");
+        }
+
+        // only delete the record that belongs to tenant
+        postRepository.deleteById(id);
     }
 }
